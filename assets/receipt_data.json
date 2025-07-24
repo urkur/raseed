@@ -1,0 +1,167 @@
+{
+    "date": "2024-06-30T18:26:26Z",
+    "items": [
+      {
+        "name": "MONO CHX DUSTER SEL",
+        "price": "14.00",
+        "quantity": "1"
+      },
+      {
+        "name": "IW POLPAT NO 10 [MBR",
+        "price": "149.00",
+        "quantity": "1"
+      },
+      {
+        "name": "WOODEN PUNJABI BELA",
+        "price": "59.00",
+        "quantity": "1"
+      },
+      {
+        "name": "DOORMAT TURKEY 3858",
+        "price": "129.00",
+        "quantity": "1"
+      },
+      {
+        "name": "DOORMAT LILY 4060 [",
+        "price": "129.00",
+        "quantity": "1"
+      },
+      {
+        "name": "SL PROMO THALI -nos",
+        "price": "119.00",
+        "quantity": "6"
+      },
+      {
+        "name": "SL CB TOPE 12-nos",
+        "price": "249.00",
+        "quantity": "1"
+      },
+      {
+        "name": "SL MUKTA WATI 5.5 [",
+        "price": "39.00",
+        "quantity": "2"
+      },
+      {
+        "name": "SL APPLE HATI NO.6",
+        "price": "49.00",
+        "quantity": "4"
+      },
+      {
+        "name": "SL PARI GLASS WITH",
+        "price": "49.00",
+        "quantity": "4"
+      },
+      {
+        "name": "SS NEDA CHALNI -nos",
+        "price": "149.00",
+        "quantity": "1"
+      },
+      {
+        "name": "SL HEAVY WIRE T-nos",
+        "price": "45.00",
+        "quantity": "1"
+      },
+      {
+        "name": "SL GRATER 9 PL HND",
+        "price": "119.00",
+        "quantity": "1"
+      },
+      {
+        "name": "PL IRIS CLOTH CLIP",
+        "price": "59.00",
+        "quantity": "1"
+      },
+      {
+        "name": "PL DHOMES PET JAR C",
+        "price": "89.00",
+        "quantity": "1"
+      },
+      {
+        "name": "PL DHOMES PET JAR C",
+        "price": "89.00",
+        "quantity": "1"
+      },
+      {
+        "name": "HD SCOTCH SL SCRUB+",
+        "price": "20.00",
+        "quantity": "1"
+      },
+      {
+        "name": "HOOD KNIFE WUK4",
+        "price": "139.00",
+        "quantity": "1"
+      },
+      {
+        "name": "SL RICE SPOON 4",
+        "price": "69.00",
+        "quantity": "1"
+      },
+      {
+        "name": "SL SPOON SET 20 PCS",
+        "price": "269.00",
+        "quantity": "1"
+      },
+      {
+        "name": "SL ANJALI GAS LIGHT",
+        "price": "99.00",
+        "quantity": "1"
+      },
+      {
+        "name": "HO SCOTCH SPONGE WI",
+        "price": "159.00",
+        "quantity": "1"
+      },
+      {
+        "name": "GREY RECYCLED SHOPP",
+        "price": "29.00",
+        "quantity": "1"
+      }
+    ],
+    "location": "DMART HOODI, 22/224, GRAPHITE INDIA ROAD, KRPURAM HOBLI, DODDANEKUNDI, INDUSTRIAL AREA PHASE-2 HOODI CIRCLE, BENGALURU, KARNATAKA-560049",
+    "taxes": [
+      {
+        "amount": "0.33",
+        "name": "CGST",
+        "percentage": "2.50%"
+      },
+      {
+        "amount": "0.33",
+        "name": "SGST",
+        "percentage": "2.50%"
+      },
+      {
+        "amount": "118.50",
+        "name": "CGST",
+        "percentage": "6.00%"
+      },
+      {
+        "amount": "118.50",
+        "name": "SGST",
+        "percentage": "8.00%"
+      },
+      {
+        "amount": "63.53",
+        "name": "CGST",
+        "percentage": "9.00%"
+      },
+      {
+        "amount": "63.53",
+        "name": "SGST",
+        "percentage": "9.00%"
+      },
+      {
+        "amount": "14.34",
+        "name": "CGST",
+        "percentage": "9.00%"
+      },
+      {
+        "amount": "14.34",
+        "name": "SGST",
+        "percentage": "9.00%"
+      }
+    ],
+    "total_amount": "3247.00",
+    "total_item_cost": "2653.60",
+    "total_tax": "396.70",
+    "alerts": []
+  }
