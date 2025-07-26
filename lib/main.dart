@@ -11,7 +11,17 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:raseed/screens/preview_screen.dart';
 
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  await FirebaseAppCheck.instance.activate(
+    webProvider: ReCaptchaV3Provider('recaptcha-v3-site-key'),
+    androidProvider: AndroidProvider.debug,
+    appleProvider: AppleProvider.debug,
+  );
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -26,22 +36,23 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      builder: (context, child) => GlobalChatWrapper(child: child),
-      import 'package:firebase_auth/firebase_auth.dart';
-import 'package:raseed/screens/login_screen.dart';
+      // builder: (context, child) => GlobalChatWrapper(child: child),
+      // import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:raseed/screens/login_screen.dart';
 
 // ...
 
-      home: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return const MainScreen();
-          } else {
-            return const LoginScreen();
-          }
-        },
-      ),
+      home: const MainScreen(),
+      // home: StreamBuilder<User?>(
+      //   stream: FirebaseAuth.instance.authStateChanges(),
+      //   builder: (context, snapshot) {
+      //     if (snapshot.hasData) {
+      //       return const MainScreen();
+      //     } else {
+      //       return const LoginScreen();
+      //     }
+      //   },
+      // ),
     );
   }
 }
