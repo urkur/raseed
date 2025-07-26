@@ -44,13 +44,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Screenshots
-Screenshot*.png
-
-# Images
-*.jpeg
-*.jpg
-
 # Documents
 requirements.md
 
