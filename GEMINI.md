@@ -36,3 +36,32 @@ To run the tests, use the following command:
 ```bash
 flutter test
 ```
+
+## Pending Items
+
+### High Priority:
+
+*   **Chat Functionality:**
+    *   **API Integration:** The chat screen is currently using a simulated bot response. You need to replace this with a real API call to your bot's backend. The relevant code is in `lib/screens/chat_screen.dart` in the `_getBotResponse` method.
+    *   **"Typing" Indicator:** The "typing" indicator is not being removed correctly. You need to fix the logic in `lib/providers/chat_provider.dart` to correctly identify and remove the typing message.
+*   **Receipt Capture:**
+    *   **OCR/Data Extraction:** The `receipt_capture_screen.dart` currently displays static data. You need to implement a feature that allows users to capture an image of a receipt and then use Optical Character Recognition (OCR) to extract the relevant information (vendor, date, amount, etc.).
+    *   **Data Persistence:** The extracted receipt data is not being saved anywhere. You need to implement a mechanism to store this data, either locally on the device or in a remote database.
+
+### Medium Priority:
+
+*   **Budget Analysis:**
+    *   **Dynamic Data:** The `budget_analysis_screen.dart` is using hardcoded data from the `receipt_data.json` file. This should be replaced with dynamic data from the user's actual expenses.
+    *   **Budget Creation/Management:** There is no way for users to create or manage their budgets. You need to add a feature that allows users to set budget limits for different categories.
+*   **Categorized Expenses:**
+    *   **Dynamic Data:** The `categorized_expenses_screen.dart` is also using hardcoded data. This should be replaced with dynamic data from the user's actual expenses.
+    *   **Category Management:** There is no way for users to create, edit, or delete expense categories.
+*   **Transaction History:**
+    *   **Dynamic Data:** The `transaction_history_screen.dart` is using hardcoded data. This should be replaced with a list of the user's actual transactions.
+
+### Low Priority:
+
+*   **Settings:**
+    *   **User Preferences:** The `settings_screen.dart` is currently empty. You can add options for users to customize the app, such as changing the theme, setting notification preferences, etc.
+*   **Dashboard:**
+    *   **Data Visualization:** The `dashboard_screen.dart` has a placeholder for a chart. You can implement a chart that visualizes the user's spending trends.
