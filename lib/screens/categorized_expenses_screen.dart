@@ -79,7 +79,7 @@ class _CategorizedExpensesScreenState extends State<CategorizedExpensesScreen> {
                 return _buildCategoryCard(
                   icon: _getIconForCategory(entry.key),
                   category: entry.key,
-                  amount: '\$${entry.value.toStringAsFixed(2)}',
+                  amount: '₹${entry.value.toStringAsFixed(2)}',
                   progress: entry.value / double.parse(_receiptData['total_amount']),
                 );
               }).toList(),

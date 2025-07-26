@@ -77,7 +77,7 @@ class _BudgetAnalysisScreenState extends State<BudgetAnalysisScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text('Total Spent', style: TextStyle(fontWeight: FontWeight.bold)),
-              Text('\$${_receiptData["total_amount"]}', style: const TextStyle(fontSize: 24.0)),
+              Text('₹${_receiptData["total_amount"]}', style: const TextStyle(fontSize: 24.0)),
             ],
           ),
         ],

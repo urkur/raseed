@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:raseed/screens/chat_screen.dart';
 import 'package:raseed/screens/budget_analysis_screen.dart';
 import 'package:raseed/screens/categorized_expenses_screen.dart';
 import 'package:raseed/screens/dashboard_screen.dart';
 import 'package:raseed/screens/receipt_capture_screen.dart';
 import 'package:raseed/screens/settings_screen.dart';
+import 'package:raseed/widgets/chat_widget.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -20,9 +23,43 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      builder: (context, child) => GlobalChatWrapper(child: child),
       home: const MainScreen(),
     );
   }
+}
+
+class GlobalChatWrapper extends StatefulWidget {
+  final Widget? child;
+
+  const GlobalChatWrapper({super.key, this.child});
+
+  @override
+  State<GlobalChatWrapper> createState() => _GlobalChatWrapperState();
+}
+
+class _GlobalChatWrapperState extends State<GlobalChatWrapper> {
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  bool _showChatButton = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Navigator(
+        key: navigatorKey,
+        onGenerateRoute: (settings) {
+          return MaterialPageRoute(
+            builder: (context) {
+              return widget.child!;
+            },
+          );
+        },
+      ),
+      floatingActionButton: _showChatButton ? ChatWidget(navigatorKey: navigatorKey) : null,
+    );
+  }
+
+  
 }
 
 class MainScreen extends StatefulWidget {
@@ -78,9 +115,9 @@ class _MainScreenState extends State<MainScreen> {
             label: 'Expenses',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.attach_money),
-            label: 'Budget',
-          ),
+        icon: Icon(Icons.currency_rupee),
+        label: 'Budget',
+      ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Settings',

@@ -30,7 +30,7 @@ class ReceiptCaptureScreen extends StatelessWidget {
                     const SizedBox(height: 16.0),
                     _buildDetailRow('Vendor', 'STORE'),
                     _buildDetailRow('Date', '04/22/2024'),
-                    _buildDetailRow('Amount', '\$17.27'),
+                    _buildDetailRow('Amount', '₹17.27'),
                     const SizedBox(height: 16.0),
                     ElevatedButton(
                       onPressed: () {

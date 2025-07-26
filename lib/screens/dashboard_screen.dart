@@ -42,9 +42,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
-                      _buildSummaryCard('Daily Spend', '\$25.50'),
-                      _buildSummaryCard('Week-to-Date', '\$175.20'),
-                      _buildSummaryCard('Month-to-Date', '\$${_receiptData["total_amount"]}'),
+                      _buildSummaryCard('Daily Spend', '₹25.50'),
+                      _buildSummaryCard('Week-to-Date', '₹175.20'),
+                      _buildSummaryCard('Month-to-Date', '₹${_receiptData["total_amount"]}'),
                     ],
                   ),
                 ),
@@ -65,7 +65,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   child: _buildInfoPanel(
                     icon: Icons.receipt_long,
                     title: 'Recent Expenses',
-                    subtitle: 'Last transaction: \$${_receiptData["total_amount"]} at ${_receiptData["location"]}',
+                    subtitle: 'Last transaction: ₹${_receiptData["total_amount"]} at ${_receiptData["location"]}',
                   ),
                 ),
                 const SizedBox(height: 16.0),

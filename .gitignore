@@ -53,3 +53,18 @@ Screenshot*.png
 
 # Documents
 requirements.md
+
+# IDE specific
+/.idea/
+
+# Build artifacts
+/build/
+
+# Cocoapods
+ios/Pods/
+ios/Podfile.lock
+macos/Pods/
+macos/Podfile.lock
+
+# Local properties
+android/local.properties

@@ -39,7 +39,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                 return ListTile(
                   leading: const Icon(Icons.receipt),
                   title: Text(item['name']),
-                  trailing: Text('\$${item["price"]}'),
+                  trailing: Text('₹${item["price"]}'),
                 );
               },
             ),
