@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "729581893106",
+    "project_id": "hack2skill-raseed",
+    "storage_bucket": "hack2skill-raseed.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:729581893106:android:2c1bde43598cc68679e76b",
+        "android_client_info": {
+          "package_name": "com.cheti.raseed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "729581893106-7fe98ulribgle0d9ai292913tlkd182p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJEvvhZGIZtooONwsv468ErdFHDXkOK6E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "729581893106-7fe98ulribgle0d9ai292913tlkd182p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
