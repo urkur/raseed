@@ -7,6 +7,9 @@ import 'package:raseed/screens/dashboard_screen.dart';
 import 'package:raseed/screens/receipt_capture_screen.dart';
 import 'package:raseed/screens/settings_screen.dart';
 import 'package:raseed/widgets/chat_widget.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'package:raseed/screens/preview_screen.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -24,7 +27,21 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       builder: (context, child) => GlobalChatWrapper(child: child),
-      home: const MainScreen(),
+      import 'package:firebase_auth/firebase_auth.dart';
+import 'package:raseed/screens/login_screen.dart';
+
+// ...
+
+      home: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const MainScreen();
+          } else {
+            return const LoginScreen();
+          }
+        },
+      ),
     );
   }
 }
@@ -44,18 +61,25 @@ class _GlobalChatWrapperState extends State<GlobalChatWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Navigator(
-        key: navigatorKey,
-        onGenerateRoute: (settings) {
-          return MaterialPageRoute(
-            builder: (context) {
-              return widget.child!;
-            },
-          );
-        },
-      ),
-      floatingActionButton: _showChatButton ? ChatWidget(navigatorKey: navigatorKey) : null,
+    return Stack(
+      children: [
+        Navigator(
+          key: navigatorKey,
+          onGenerateRoute: (settings) {
+            return MaterialPageRoute(
+              builder: (context) {
+                return widget.child!;
+              },
+            );
+          },
+        ),
+        if (_showChatButton)
+          Positioned(
+            bottom: 90,
+            right: 16,
+            child: ChatWidget(navigatorKey: navigatorKey),
+          ),
+      ],
     );
   }
 
@@ -85,11 +109,18 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-  void _captureReceipt() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const ReceiptCaptureScreen()),
-    );
+  void _captureReceipt() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.camera);
+
+    if (image != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PreviewScreen(imageFile: File(image.path)),
+        ),
+      );
+    }
   }
 
   @override

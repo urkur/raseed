@@ -98,6 +98,9 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
         messages: messages,
         onSendPressed: _handleSendPressed,
         user: _user,
+        inputOptions: const InputOptions(
+          autofocus: true,
+        ),
         theme: DefaultChatTheme(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           primaryColor: Theme.of(context).primaryColor,
