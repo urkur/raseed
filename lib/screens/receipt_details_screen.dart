@@ -1,9 +1,6 @@
-import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:raseed/constants.dart';
+import 'package:flutter_gemma/flutter_gemma.dart';
 
 class ReceiptDetailsScreen extends StatefulWidget {
   final File image;
@@ -15,45 +12,32 @@ class ReceiptDetailsScreen extends StatefulWidget {
 }
 
 class _ReceiptDetailsScreenState extends State<ReceiptDetailsScreen> {
-  String? _responseData;
+  String? _extractedData;
   bool _isLoading = true;
+  late FlutterGemma _gemma;
 
   @override
   void initState() {
     super.initState();
-    _uploadImage();
+    _initializeAndRunGemma();
   }
 
-  Future<void> _uploadImage() async {
+  Future<void> _initializeAndRunGemma() async {
     try {
+      _gemma = FlutterGemma();
+      await _gemma.loadModel('assets/gemma-2b-it-cpu.bin');
       final imageBytes = await widget.image.readAsBytes();
-      final base64Image = base64Encode(imageBytes);
-
-      final url = Uri.parse(ApiConstants.chatUrl);
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          "text": "Hi",
-          "files": [base64Image],
-          "session_id": "test_session_123",
-          "user_id": "test_user_456"
-        }),
-      );
-
-      if (mounted) {
-        setState(() {
-          _responseData = response.body;
-          _isLoading = false;
-        });
-      }
+      final prompt = "Extract the vendor name, date, and total amount from this receipt. Provide the output in JSON format.";
+      final result = await _gemma.run(prompt, images: [imageBytes]);
+      setState(() {
+        _extractedData = result;
+        _isLoading = false;
+      });
     } catch (e) {
-      if (mounted) {
-        setState(() {
-          _responseData = "An error occurred: $e";
-          _isLoading = false;
-        });
-      }
+      setState(() {
+        _extractedData = "An error occurred: $e";
+        _isLoading = false;
+      });
     }
   }
 
@@ -89,7 +73,7 @@ class _ReceiptDetailsScreenState extends State<ReceiptDetailsScreen> {
                     child: _isLoading
                         ? const Center(child: CircularProgressIndicator())
                         : SingleChildScrollView(
-                            child: Text(_responseData ?? 'No response'),
+                            child: Text(_extractedData ?? 'No data extracted'),
                           ),
                   ),
                   const SizedBox(width: 16.0),
@@ -97,7 +81,7 @@ class _ReceiptDetailsScreenState extends State<ReceiptDetailsScreen> {
                   Expanded(
                     flex: 1,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: _isLoading ? null : () {
                         // TODO: Implement 'Add to Wallet' functionality
                       },
                       child: const Text('Add to Wallet'),
