@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:raseed/screens/transaction_history_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -11,17 +13,45 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   Map<String, dynamic> _receiptData = {};
+  List<Map<String, dynamic>> _allGraphData = [];
+  List<FlSpot> _filteredGraphData = [];
+  int _selectedDays = 7;
 
   @override
   void initState() {
     super.initState();
     _loadReceiptData();
+    _loadGraphData();
   }
 
   Future<void> _loadReceiptData() async {
     String data = await DefaultAssetBundle.of(context).loadString("assets/receipt_data.json");
     setState(() {
       _receiptData = json.decode(data);
+    });
+  }
+
+  Future<void> _loadGraphData() async {
+    String data = await rootBundle.loadString('assets/dummy_graph.json');
+    final List<dynamic> jsonData = json.decode(data);
+    setState(() {
+      _allGraphData = jsonData.cast<Map<String, dynamic>>();
+      _filterGraphData(_selectedDays);
+    });
+  }
+
+  void _filterGraphData(int days) {
+    final DateTime now = DateTime.now();
+    final DateTime startDate = now.subtract(Duration(days: days));
+    setState(() {
+      _selectedDays = days;
+      _filteredGraphData = _allGraphData.where((data) {
+        final dataDate = DateTime.parse(data['date']);
+        return dataDate.isAfter(startDate) && dataDate.isBefore(now);
+      }).map((data) {
+        final date = DateTime.parse(data['date']);
+        return FlSpot(date.day.toDouble(), data['amount']);
+      }).toList();
     });
   }
 
@@ -112,19 +142,43 @@ class _DashboardScreenState extends State<DashboardScreen> {
           children: [
             const Text('Spending Trends', style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 16.0),
-            // Placeholder for the chart
-            Container(
+            SizedBox(
               height: 200,
-              color: Colors.grey[300],
-              child: const Center(child: Text('Chart Placeholder')),
+              child: LineChart(
+                LineChartData(
+                  gridData: const FlGridData(show: false),
+                  titlesData: const FlTitlesData(show: false),
+                  borderData: FlBorderData(show: false),
+                  lineBarsData: [
+                    LineChartBarData(
+                      spots: _filteredGraphData,
+                      isCurved: true,
+                      color: Colors.blue,
+                      barWidth: 3,
+                      isStrokeCapRound: true,
+                      dotData: const FlDotData(show: false),
+                      belowBarData: BarAreaData(show: false),
+                    ),
+                  ],
+                ),
+              ),
             ),
             const SizedBox(height: 8.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextButton(onPressed: () {}, child: const Text('7d')),
-                TextButton(onPressed: () {}, child: const Text('30d')),
-                TextButton(onPressed: () {}, child: const Text('90d')),
+                TextButton(
+                  onPressed: () => _filterGraphData(7),
+                  child: Text('7d', style: TextStyle(color: _selectedDays == 7 ? Colors.blue : Colors.grey)),
+                ),
+                TextButton(
+                  onPressed: () => _filterGraphData(30),
+                  child: Text('30d', style: TextStyle(color: _selectedDays == 30 ? Colors.blue : Colors.grey)),
+                ),
+                TextButton(
+                  onPressed: () => _filterGraphData(90),
+                  child: Text('90d', style: TextStyle(color: _selectedDays == 90 ? Colors.blue : Colors.grey)),
+                ),
               ],
             ),
           ],

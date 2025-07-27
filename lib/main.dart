@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Raseed',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -47,25 +48,76 @@ class GlobalChatWrapper extends StatefulWidget {
 }
 
 class _GlobalChatWrapperState extends State<GlobalChatWrapper> {
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
   bool _showChatButton = true;
+
+  void _updateChatButtonVisibility(Route<dynamic> route) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final routeName = route.settings.name;
+      final shouldShow = routeName != 'chat';
+      if (_showChatButton != shouldShow) {
+        setState(() {
+          _showChatButton = shouldShow;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Navigator(
-        key: navigatorKey,
+        key: _navigatorKey,
+        initialRoute: '/',
         onGenerateRoute: (settings) {
-          return MaterialPageRoute(
-            builder: (context) {
-              return widget.child!;
-            },
-          );
+          Widget page;
+          switch (settings.name) {
+            case 'chat':
+              page = const ChatScreen();
+              break;
+            case '/':
+            default:
+              page = widget.child!;
+              break;
+          }
+          return MaterialPageRoute(builder: (_) => page, settings: settings);
         },
+        observers: [SimpleRouteObserver(onNavigate: _updateChatButtonVisibility)],
       ),
-      floatingActionButton:
-          _showChatButton ? ChatWidget(navigatorKey: navigatorKey) : null,
+      floatingActionButton: _showChatButton
+          ? ChatWidget(
+              onPressed: () {
+                _navigatorKey.currentState?.pushNamed('chat');
+              },
+            )
+          : null,
     );
+  }
+}
+
+class SimpleRouteObserver extends NavigatorObserver {
+  final Function(Route<dynamic>) onNavigate;
+
+  SimpleRouteObserver({required this.onNavigate});
+
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    onNavigate(route);
+  }
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    if (previousRoute != null) {
+      onNavigate(previousRoute);
+    }
+  }
+
+  @override
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
+    if (newRoute != null) {
+      onNavigate(newRoute);
+    }
   }
 }
 

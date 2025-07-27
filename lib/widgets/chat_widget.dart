@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:raseed/screens/chat_screen.dart';
 
 class ChatWidget extends StatelessWidget {
-  final GlobalKey<NavigatorState> navigatorKey;
+  final VoidCallback onPressed;
 
-  const ChatWidget({super.key, required this.navigatorKey});
+  const ChatWidget({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 70.0),
       child: FloatingActionButton(
-        onPressed: () {
-          navigatorKey.currentState?.push(
-            MaterialPageRoute(builder: (context) => const ChatScreen()),
-          );
-        },
+        onPressed: onPressed,
         child: const Icon(Icons.chat),
       ),
     );
