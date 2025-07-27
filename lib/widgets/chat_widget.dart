@@ -8,13 +8,16 @@ class ChatWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () {
-        navigatorKey.currentState?.push(
-          MaterialPageRoute(builder: (context) => const ChatScreen()),
-        );
-      },
-      child: const Icon(Icons.chat),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 70.0),
+      child: FloatingActionButton(
+        onPressed: () {
+          navigatorKey.currentState?.push(
+            MaterialPageRoute(builder: (context) => const ChatScreen()),
+          );
+        },
+        child: const Icon(Icons.chat),
+      ),
     );
   }
 }

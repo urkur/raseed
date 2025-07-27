@@ -1,10 +1,18 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+import 'package:raseed/constants.dart';
 import 'package:raseed/screens/chat_screen.dart';
 import 'package:raseed/screens/budget_analysis_screen.dart';
 import 'package:raseed/screens/categorized_expenses_screen.dart';
 import 'package:raseed/screens/dashboard_screen.dart';
 import 'package:raseed/screens/receipt_capture_screen.dart';
+import 'package:raseed/screens/receipt_details_screen.dart';
 import 'package:raseed/screens/settings_screen.dart';
 import 'package:raseed/widgets/chat_widget.dart';
 
@@ -55,11 +63,10 @@ class _GlobalChatWrapperState extends State<GlobalChatWrapper> {
           );
         },
       ),
-      floatingActionButton: _showChatButton ? ChatWidget(navigatorKey: navigatorKey) : null,
+      floatingActionButton:
+          _showChatButton ? ChatWidget(navigatorKey: navigatorKey) : null,
     );
   }
-
-  
 }
 
 class MainScreen extends StatefulWidget {
@@ -85,11 +92,29 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-  void _captureReceipt() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const ReceiptCaptureScreen()),
-    );
+  Future<void> _captureReceipt() async {
+    final ImagePicker picker = ImagePicker();
+    try {
+      final XFile? image = await picker.pickImage(source: ImageSource.camera);
+      if (image == null) {
+        if (!mounted) return;
+        Fluttertoast.showToast(msg: "No image selected");
+        return;
+      }
+
+      if (!mounted) return;
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ReceiptDetailsScreen(
+            image: File(image.path),
+          ),
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      Fluttertoast.showToast(msg: "An error occurred: $e");
+    }
   }
 
   @override
@@ -115,9 +140,9 @@ class _MainScreenState extends State<MainScreen> {
             label: 'Expenses',
           ),
           BottomNavigationBarItem(
-        icon: Icon(Icons.currency_rupee),
-        label: 'Budget',
-      ),
+            icon: Icon(Icons.currency_rupee),
+            label: 'Budget',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Settings',

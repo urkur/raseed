@@ -13,6 +13,6 @@ class ChatNotifier extends StateNotifier<List<types.Message>> {
   }
 
   void removeTyping() {
-    state = state.where((m) => m.id != 'typing').toList();
+    state = state.where((m) => m is! types.TextMessage || m.text != '...').toList();
   }
 }

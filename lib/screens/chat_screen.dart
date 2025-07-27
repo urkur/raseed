@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:raseed/constants.dart';
 import 'package:raseed/models/chat_model.dart';
 import 'package:raseed/providers/chat_provider.dart';
 import 'package:uuid/uuid.dart';
@@ -26,6 +27,11 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     super.initState();
     // Reset chat history when the screen is initialized
     Future.microtask(() => ref.refresh(chatProvider));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   void _handleSendPressed(types.PartialText message) {
@@ -53,15 +59,25 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
   Future<void> _getBotResponse(String message) async {
     try {
-      // Replace with your bot's API endpoint
       final response = await http.post(
-        Uri.parse('YOUR_BOT_API_ENDPOINT'),
+        Uri.parse(ApiConstants.chatUrl),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'message': message}),
+        body: jsonEncode({
+          "text": message,
+          "files": [],
+          "session_id": "test_session_123",
+          "user_id": "test_user_456"
+        }),
       );
 
       if (response.statusCode == 200) {
-        final botMessage = types.TextMessage.fromJson(jsonDecode(response.body));
+        final responseData = jsonDecode(response.body);
+        final botMessage = types.TextMessage(
+          author: _bot,
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+          id: const Uuid().v4(),
+          text: responseData['response'],
+        );
         ref.read(chatProvider.notifier).addMessage(botMessage);
       } else {
         _handleError();
@@ -104,6 +120,9 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
           secondaryColor: Theme.of(context).colorScheme.secondary,
           inputBackgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
           inputTextColor: Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
+        ),
+        inputOptions: const InputOptions(
+          autofocus: true,
         ),
       ),
     );
